@@ -1,45 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-import logo from './logo.svg';
 import './App.css';
-import FilterBar from '/.FilterBar';
+import FilterBar from './FilterBar';
 import Search from './Search';
 import Header from './Header';
 import Results from './Results';
 
 class App extends React.Component {
-  
   state={
-    volumeSearch:'',
-    currentList:'',
-  };
-
+    books: []
+  }
 
   updateState(response){
       this.setState({volumeSearch:response})
   }
 
-  updateStateList(booksList){
-    this.setState({currentList:booksList})
+  getBooks = query => {
+    console.log(query)
+    const baseURL = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
+    console.log(baseURL)
+      fetch(baseURL)
+      .then(response => response.ok ? response.json() : Promise.reject("Something went wrong here"))
+      .then(response => this.updateState(response))
   }
 
-  getResults(onClick){
-    this.updateState(searchParameters);
-     fetch(`https://www.googleapis.com/books/v1/volumes/q=${this.state.volumeSearch}`)
-        .then(response => response.ok ? response.json() : Promise.reject("Something went wrong here"))
-        .then(response => this.updateState(response))
-        .then(data => {
-          const booksList = Object.keys(data).map(key=>data[key].item)
-          this.updateStateList(booksList);
-        })
-        return
-  }
 
-  render(props) {
-  return (<div className="App" >
-           <Search onClick={this.props.onClick}/>
-           <Results results={this.getResults(onClick)}/>
-           </div>);
+  render() {
+    return (
+      <div className="App">
+        <Search getBooks={this.getBooks} books={this.state.books}/>
+      </div>
+    )
   }
 }
 

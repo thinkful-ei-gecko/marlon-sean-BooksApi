@@ -6,9 +6,9 @@ class Results extends React.Component {
     render(props){
         const data=props.results;
         return(
-                <div>
-                    <p>${data}</p>
-                </div>
+            <ul class='resultsList'>
+                
+            </ul>
         );
     }
 }
