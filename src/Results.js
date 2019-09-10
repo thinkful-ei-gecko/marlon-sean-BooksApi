@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom'
 
 class Results extends React.Component {
 
-    render(){
+    render(props){
+        const data=props.results;
         return(
-
-        )
+                <div>
+                    <p>${data}</p>
+                </div>
+        );
     }
 }
 

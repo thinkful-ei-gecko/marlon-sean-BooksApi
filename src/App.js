@@ -9,29 +9,37 @@ import Results from './Results';
 
 class App extends React.Component {
   
-  state={};
+  state={
+    volumeSearch:'',
+    currentList:'',
+  };
 
 
   updateState(response){
-      this.setState(response);
+      this.setState({volumeSearch:response})
   }
 
-  componentDidMount(){
-     fetch('https://www.googleapis.com/books/v1/volumes')
+  updateStateList(booksList){
+    this.setState({currentList:booksList})
+  }
+
+  getResults(onClick){
+    this.updateState(searchParameters);
+     fetch(`https://www.googleapis.com/books/v1/volumes/q=${this.state.volumeSearch}`)
         .then(response => response.ok ? response.json() : Promise.reject("Something went wrong here"))
         .then(response => this.updateState(response))
         .then(data => {
           const booksList = Object.keys(data).map(key=>data[key].item)
+          this.updateStateList(booksList);
         })
-
+        return
   }
 
-  render() {
-  return (
-    `<div className="App">
-
-    </div>`
-  )
+  render(props) {
+  return (<div className="App" >
+           <Search onClick={this.props.onClick}/>
+           <Results results={this.getResults(onClick)}/>
+           </div>);
   }
 }
 
