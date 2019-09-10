@@ -3,16 +3,21 @@ import ReactDOM from 'react-dom'
 
 class Search extends React.Component {
 
+    handleSubmit = event => {
+        event.preventDefault();
+        const searchTerm = document.getElementById('searchValue').value
+        console.log(searchTerm)
+        this.props.getBooks(searchTerm);
+    }
 
-        render(e){
-            e.preventDefault();
-            return (
-                <form class='searchBar'>
-                    <input type="text" id='searchValue' placeholder='Enter a book'></input>
-                    <button type="submit" bookSearch={() => this.props.getBooks(document.getElementById('searchValue').value)}>Submit</button>
-                </form>
-            )
-        }
+    render(){
+        return (
+            <form className='searchBar' onSubmit={this.handleSubmit}>
+                <input type="text" id='searchValue' placeholder='Enter a book'></input>
+                <button type="submit">Submit</button>
+            </form>
+        )
+    }
 
 }
 

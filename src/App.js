@@ -16,13 +16,14 @@ class App extends React.Component {
   }
 
   getBooks = query => {
+    console.log(query)
     const baseURL = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
     console.log(baseURL)
       fetch(baseURL)
       .then(response => response.ok ? response.json() : Promise.reject("Something went wrong here"))
       .then(response => this.updateState(response))
-      
   }
+
 
   render() {
     return (
