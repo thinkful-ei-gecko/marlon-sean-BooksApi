@@ -5,8 +5,10 @@ class Results extends React.Component {
 
     render(){
         return(
-
-        )
+            <ul class='resultsList'>
+                
+            </ul>
+        );
     }
 }
 
