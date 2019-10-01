@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import FilterBar from './FilterBar';
 import Search from './Search';
 import Header from './Header';
 import Results from './Results';
@@ -8,39 +7,43 @@ import Results from './Results';
 class App extends React.Component {
   state={
     booksList: [],
-    currentVolume:'',
+    baseURL: 'https://www.googleapis.com/books/v1/volumes?q=',
   }
 
-  updateStateVolumeList(response){
+  updateBooksList(response){
       this.setState({
         booksList: response
       })
   }
 
-  updateCurrentVolumeState(response){
+  generateURL = (search, printType, filter) => {
+    let printTypeString = `&printType=${printType}`
+    let filterString = `&filter=${filter}`
+ 
+    if(filter === ''){
+     filterString = '';
+    }
+  
+    let newBaseURL = `https://www.googleapis.com/books/v1/volumes?q=${search}${printTypeString}${filterString}`;
 
+    this.setState({baseURL: newBaseURL}, this.getBooks)
   }
-
-  getBooks = query => {
-    this.updateCurrentVolumeState(query);
-    const baseURL = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
+  getBooks = () => {
+    let baseURL = this.state.baseURL
     console.log(baseURL)
-      fetch(baseURL)
+      fetch(`${baseURL}`)
       .then(response => response.ok ? response.json() : Promise.reject("Something went wrong here"))
       .then(response => {
-        this.updateStateVolumeList(response.items)
+        this.updateBooksList(response.items)
         console.log(this.state.booksList)
       })
-      
   }
-
 
   render() {
     return (
       <div className="App">
         <Header />
-        <Search getBooks={this.getBooks} />
-        <FilterBar />
+        <Search getBooks={this.getBooks} generateURL={this.generateURL}/>
         <Results books={this.state.booksList} />
       </div>
     )

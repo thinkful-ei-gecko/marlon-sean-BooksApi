@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import './Results.css';
 
-class Results extends React.Component{
-  
-    render(){
+
+function Results(props) {
         
-    const data=this.props.books.map(newBook => {
+    const data=props.books.map(newBook => {
         return(
             <li key={newBook.id}>
                 <h3>{newBook.volumeInfo.title}</h3>
@@ -16,14 +15,13 @@ class Results extends React.Component{
             </li>
             )
         })
-     ;    
+        ;    
 
     return (
         <ul className='resultsList'>
-          {data}
+            {data}
         </ul>
     );
-    }
 }
 
 export default Results

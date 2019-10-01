@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import './Header.css';
 
 class Header extends React.Component {
 
     render() {
         return (
-            <h1>Google Book Search </h1>
+            <h1>Google Book Search</h1>
         )
     }
 }
